@@ -7,63 +7,128 @@ A modern web application for managing AI-generated notes, built with Next.js 15,
 - **Note Management**: Create, view, and organize AI-generated notes
 - **Modern UI**: Clean, responsive design with Tailwind CSS
 - **Type Safety**: Full TypeScript support with Prisma ORM
-- **Database**: SQLite database with Prisma for easy development
+- **Database**: PostgreSQL database with Prisma for robust data management
 - **Docker Support**: Containerized deployment with optimized Dockerfile
 - **AI Integration**: Ready for Anthropic AI SDK integration
+- **Dev Container**: Complete VS Code development environment with extensions
+- **CI/CD Pipeline**: Automated testing, linting, and building with GitHub Actions
+- **Code Quality**: Prettier formatting and ESLint with TypeScript support
+- **Testing**: Vitest testing framework for reliable code
 
 ## 🛠️ Tech Stack
 
 - **Framework**: Next.js 15.5.6 (App Router)
 - **Language**: TypeScript 5
-- **Database**: SQLite with Prisma ORM
+- **Database**: PostgreSQL with Prisma ORM
 - **Styling**: Tailwind CSS 4.1.14
 - **AI**: Anthropic AI SDK 0.67.0
 - **Runtime**: Node.js 24 (Alpine Linux in Docker)
+- **Package Manager**: pnpm (with workspace support)
+- **Testing**: Vitest 3.2.4
+- **Code Quality**: Prettier 3.6.2, ESLint 9
+- **CI/CD**: GitHub Actions
 
 ## 📋 Prerequisites
 
-- Node.js 18+ 
-- npm or yarn
+- Node.js 18+
+- pnpm (recommended) or npm
 - Docker (optional, for containerized deployment)
+- VS Code with Dev Containers extension (for dev container setup)
 
 ## 🚀 Getting Started
 
-### Local Development
+### Option 1: VS Code Dev Container (Recommended)
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd ai-notes-hub
    ```
 
-2. **Install dependencies**
+2. **Open in VS Code with Dev Containers**
+   - Install the "Dev Containers" extension in VS Code
+   - Open the project folder in VS Code
+   - Click "Reopen in Container" when prompted
+   - The dev container will automatically set up the environment
+
+3. **Start the development server**
+
    ```bash
-   npm install
+   pnpm dev
    ```
 
-3. **Set up environment variables**
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+### Option 2: Local Development
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd ai-notes-hub
+   ```
+
+2. **Install pnpm (if not already installed)**
+
+   ```bash
+   npm install -g pnpm
+   ```
+
+3. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+4. **Set up environment variables**
    Create a `.env` file in the root directory:
+
    ```env
-   DATABASE_URL="file:./dev.db"
+   DATABASE_URL="postgresql://username:password@localhost:5432/ai_notes_hub"
    ```
 
-4. **Set up the database**
+5. **Set up the database**
+
    ```bash
    npx prisma generate
    npx prisma db push
    ```
 
-5. **Start the development server**
+6. **Start the development server**
+
    ```bash
-   npm run dev
+   pnpm dev
    ```
 
-6. **Open your browser**
+7. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 🏗️ Development Environment
+
+### VS Code Dev Container Features
+
+The project includes a complete development environment with:
+
+- **Pre-configured Extensions**: Tailwind CSS, Prettier, TypeScript, Prisma, ESLint
+- **Auto-formatting**: Code formats automatically on save
+- **Linting**: ESLint runs automatically with TypeScript support
+- **Port Forwarding**: Automatic port 3000 forwarding for Next.js
+- **Post-creation Setup**: Automatic dependency installation and database setup
+
+### Development Tools
+
+- **Prettier**: Consistent code formatting across the project
+- **ESLint**: TypeScript-aware linting with Next.js rules
+- **Vitest**: Fast testing framework for unit and integration tests
+- **pnpm**: Fast, disk space efficient package manager
+- **GitHub Actions**: Automated CI/CD pipeline
 
 ### Docker Deployment
 
 1. **Build the Docker image**
+
    ```bash
    docker build -t ai-notes-hub .
    ```
@@ -87,8 +152,7 @@ ai-notes-hub/
 │   └── lib/
 │       └── prisma.ts        # Prisma client configuration
 ├── prisma/
-│   ├── schema.prisma        # Database schema
-│   └── dev.db              # SQLite database file
+│   └── schema.prisma        # Database schema
 ├── public/                 # Static assets
 ├── Dockerfile             # Docker configuration
 ├── package.json           # Dependencies and scripts
@@ -111,10 +175,11 @@ model Note {
 
 ## 🚀 Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm start` - Start production server
+- `pnpm lint` - Run ESLint with TypeScript support
+- `pnpm test` - Run tests with Vitest
 
 ## 🐳 Docker Configuration
 
@@ -128,9 +193,9 @@ The Dockerfile is optimized for production deployment:
 
 ## 🔧 Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `DATABASE_URL` | SQLite database file path | `file:./dev.db` |
+| Variable       | Description                    | Example                                    |
+| -------------- | ------------------------------ | ------------------------------------------ |
+| `DATABASE_URL` | PostgreSQL database connection | `postgresql://user:pass@localhost:5432/db` |
 
 ## 🎨 UI Components
 
@@ -145,8 +210,10 @@ The application features a clean, modern interface:
 
 1. **Database Changes**: Update `prisma/schema.prisma` and run `npx prisma db push`
 2. **Type Generation**: Run `npx prisma generate` after schema changes
-3. **Code Quality**: Use `npm run lint` to check code quality
-4. **Testing**: Add tests in a `__tests__` directory (recommended)
+3. **Code Quality**: Use `pnpm lint` to check code quality
+4. **Testing**: Use `pnpm test` to run tests with Vitest
+5. **Code Formatting**: Prettier is configured to format on save in VS Code
+6. **CI/CD**: GitHub Actions automatically runs lint, test, and build on every push/PR
 
 ## 🚀 Deployment
 
@@ -164,6 +231,7 @@ The application features a clean, modern interface:
 ### Other Platforms
 
 The application can be deployed to any platform that supports Node.js:
+
 - Railway
 - Render
 - DigitalOcean App Platform
@@ -186,7 +254,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ### Common Issues
 
 1. **Database Connection Error**
-   - Ensure `DATABASE_URL` is set correctly
+   - Ensure `DATABASE_URL` is set correctly with PostgreSQL connection string
+   - Verify PostgreSQL server is running and accessible
+   - Check database credentials and permissions
    - Run `npx prisma generate` and `npx prisma db push`
 
 2. **Build Failures**
