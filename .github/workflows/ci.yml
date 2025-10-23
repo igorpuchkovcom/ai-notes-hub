@@ -40,3 +40,12 @@ jobs:
       - run: pnpm lint
       - run: pnpm test
       - run: pnpm build
+      - name: Send Discord Notification
+        run: |
+          STATUS=${{ job.status }}
+          COLOR=$([ "$STATUS" == "success" ] && echo "3066993" || echo "15158332")
+          MESSAGE="**${{ github.repository }}** build *${STATUS}* on \`${{ github.ref_name }}\` by **${{ github.actor }}**"
+          curl -H "Content-Type: application/json" \
+                -X POST \
+                -d "{\"embeds\":[{\"title\":\"CI Build $STATUS\",\"description\":\"$MESSAGE\",\"color\":$COLOR}]}" \
+                ${{ secrets.DISCORD_WEBHOOK_URL }}
