@@ -8,6 +8,7 @@ A modern web application for managing AI-generated notes, built with Next.js 15,
 - **Modern UI**: Clean, responsive design with Tailwind CSS
 - **Type Safety**: Full TypeScript support with Prisma ORM
 - **Database**: PostgreSQL database with Prisma for robust data management
+- **Error Monitoring**: Sentry integration for production error tracking
 - **Docker Support**: Containerized deployment with optimized Dockerfile
 - **AI Integration**: Ready for Anthropic AI SDK integration
 - **Dev Container**: Complete VS Code development environment with extensions
@@ -22,6 +23,7 @@ A modern web application for managing AI-generated notes, built with Next.js 15,
 - **Database**: PostgreSQL with Prisma ORM
 - **Styling**: Tailwind CSS 4.1.14
 - **AI**: Anthropic AI SDK 0.67.0
+- **Monitoring**: Sentry 10.20.0 for error tracking
 - **Runtime**: Node.js 24 (Alpine Linux in Docker)
 - **Package Manager**: pnpm (with workspace support)
 - **Testing**: Vitest 3.2.4
@@ -89,6 +91,10 @@ A modern web application for managing AI-generated notes, built with Next.js 15,
    DATABASE_URL="postgresql://username:password@localhost:5432/ai_notes_hub"
    ```
 
+   **Optional**: Configure Sentry for error tracking:
+   - Update `sentry.edge.config.ts` and `sentry.server.config.ts` with your Sentry DSN
+   - Or set the DSN in environment variables and update the config files to use `process.env.SENTRY_DSN`
+
 5. **Set up the database**
 
    ```bash
@@ -111,11 +117,13 @@ A modern web application for managing AI-generated notes, built with Next.js 15,
 
 The project includes a complete development environment with:
 
-- **Pre-configured Extensions**: Tailwind CSS, Prettier, TypeScript, Prisma, ESLint
+- **Pre-configured Extensions**: Tailwind CSS, Prettier, TypeScript, Prisma, ESLint, Vitest Explorer, Docker
 - **Auto-formatting**: Code formats automatically on save
 - **Linting**: ESLint runs automatically with TypeScript support
+- **Testing Integration**: Vitest test explorer and debugging support
 - **Port Forwarding**: Automatic port 3000 forwarding for Next.js
 - **Post-creation Setup**: Automatic dependency installation and database setup
+- **Enhanced Editor Settings**: TypeScript auto-imports, consistent formatting, and testing configuration
 
 ### Development Tools
 
@@ -146,17 +154,26 @@ The application will be available at [http://localhost:3000](http://localhost:30
 ai-notes-hub/
 ├── src/
 │   ├── app/
-│   │   ├── globals.css      # Global styles
-│   │   ├── layout.tsx       # Root layout component
-│   │   └── page.tsx         # Home page component
-│   └── lib/
-│       └── prisma.ts        # Prisma client configuration
+│   │   ├── api/
+│   │   │   └── sentry-example-api/  # Sentry example API endpoint
+│   │   ├── sentry-example-page/     # Sentry example page
+│   │   ├── global-error.tsx         # Global error handler with Sentry
+│   │   ├── globals.css              # Global styles
+│   │   ├── layout.tsx               # Root layout component
+│   │   └── page.tsx                 # Home page component
+│   ├── lib/
+│   │   └── prisma.ts                # Prisma client configuration
+│   ├── instrumentation.ts           # Sentry instrumentation setup
+│   └── instrumentation-client.ts    # Client-side instrumentation
 ├── prisma/
 │   └── schema.prisma        # Database schema
-├── public/                 # Static assets
-├── Dockerfile             # Docker configuration
-├── package.json           # Dependencies and scripts
-└── README.md              # This file
+├── public/                  # Static assets
+├── sentry.edge.config.ts    # Sentry edge runtime configuration
+├── sentry.server.config.ts  # Sentry server-side configuration
+├── next.config.js           # Next.js and Sentry configuration
+├── Dockerfile               # Docker configuration
+├── package.json             # Dependencies and scripts
+└── README.md                # This file
 ```
 
 ## 🗄️ Database Schema
@@ -193,9 +210,14 @@ The Dockerfile is optimized for production deployment:
 
 ## 🔧 Environment Variables
 
-| Variable       | Description                    | Example                                    |
-| -------------- | ------------------------------ | ------------------------------------------ |
-| `DATABASE_URL` | PostgreSQL database connection | `postgresql://user:pass@localhost:5432/db` |
+| Variable                   | Description                       | Example                                    | Required |
+| -------------------------- | --------------------------------- | ------------------------------------------ | -------- |
+| `DATABASE_URL`             | PostgreSQL database connection    | `postgresql://user:pass@localhost:5432/db` | Yes      |
+| `SENTRY_DSN`               | Sentry error tracking DSN         | `https://your-dsn@sentry.io/project-id`    | No       |
+| `SENTRY_AUTH_TOKEN`        | Sentry auth token for sourcemaps  | `your-sentry-auth-token`                   | No       |
+| `.env.sentry-build-plugin` | Sentry build plugin configuration | Auto-generated by Sentry wizard            | No       |
+
+**Note**: Sentry DSN is currently configured in `sentry.edge.config.ts` and `sentry.server.config.ts`. For production deployments, consider moving the DSN to environment variables for better security.
 
 ## 🎨 UI Components
 
@@ -214,6 +236,38 @@ The application features a clean, modern interface:
 4. **Testing**: Use `pnpm test` to run tests with Vitest
 5. **Code Formatting**: Prettier is configured to format on save in VS Code
 6. **CI/CD**: GitHub Actions automatically runs lint, test, and build on every push/PR
+
+## 📊 Error Monitoring with Sentry
+
+The application includes full Sentry integration for error tracking and performance monitoring:
+
+### Configuration Files
+
+- `sentry.server.config.ts` - Server-side error tracking
+- `sentry.edge.config.ts` - Edge runtime error tracking
+- `src/instrumentation.ts` - Main instrumentation setup
+- `src/app/global-error.tsx` - Global error boundary
+
+### Features
+
+- **Automatic Error Capture**: Errors are automatically captured and sent to Sentry
+- **Performance Monitoring**: Track application performance and slow endpoints
+- **User Context**: Captures user information with errors (when enabled)
+- **Source Maps**: Automatic upload to Sentry for better stack traces
+- **Custom Monitoring Route**: Uses `/monitoring` tunnel to bypass ad-blockers
+
+### Testing Sentry Integration
+
+Visit `/sentry-example-page` to test error tracking, or make a request to `/api/sentry-example-api/route` to test API error tracking.
+
+### Configuration for Production
+
+1. **Update Sentry DSN**: Replace the DSN in `sentry.*.config.ts` files with your production DSN
+2. **Set Auth Token**: Add `SENTRY_AUTH_TOKEN` to environment variables for source map uploads
+3. **Adjust Sample Rates**: Modify `tracesSampleRate` in config files (currently set to 1 for development)
+4. **Review PII Settings**: Consider disabling `sendDefaultPii` for production if privacy is a concern
+
+> > > > > > > a502acd3a5193917aec6d30b260594dc76f0dfd3
 
 ## 🚀 Deployment
 

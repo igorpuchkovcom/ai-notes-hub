@@ -16,12 +16,18 @@
         "bradlc.vscode-tailwindcss",
         "esbenp.prettier-vscode",
         "ms-vscode.vscode-typescript-next",
-        "Prisma.prisma",
+        "prisma.prisma",
         "ms-vscode.vscode-json",
-        "ms-vscode.vscode-eslint",
+        "dbaeumer.vscode-eslint",
         "formulahendry.auto-rename-tag",
         "christian-kohler.path-intellisense",
-        "ms-vscode.vscode-npm-scripts"
+        "ms-vscode.vscode-npm-scripts",
+        "ms-azuretools.vscode-containers",
+        "ms-azuretools.vscode-docker",
+        "vitest.explorer",
+        "ms-vscode.test-adapter-converter",
+        "hbenl.vscode-test-explorer",
+        "ms-vscode.vscode-js-debug"
       ],
       "settings": {
         "typescript.preferences.importModuleSpecifier": "relative",
@@ -33,7 +39,25 @@
         "tailwindCSS.includeLanguages": {
           "typescript": "javascript",
           "typescriptreact": "javascript"
-        }
+        },
+        "typescript.suggest.autoImports": true,
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "files.eol": "\n",
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "emmet.includeLanguages": {
+          "typescript": "html",
+          "typescriptreact": "html"
+        },
+        "vitest.enable": true,
+        "vitest.commandLine": "npm run test",
+        "testing.automaticallyOpenPeekView": "never",
+        "testing.openTesting": "neverOpen",
+        "prisma.showPrismaDataPlatformNotification": false,
+        "npm.enableScriptExplorer": true,
+        "npm.scriptExplorerAction": "run"
       }
     }
   },
