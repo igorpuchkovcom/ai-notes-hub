@@ -2,7 +2,7 @@
 
 A modern web application for managing AI-generated notes, built with Next.js 15, TypeScript, Prisma, and Tailwind CSS.
 
-> Deployed version: **v0.0.0** | Last deploy: **—**
+> Deployed version: ****
 
 ![Build](https://github.com/igorpuchkovcom/ai-notes-hub/actions/workflows/ci.yml/badge.svg)
 ![Version](https://img.shields.io/github/v/release/igorpuchkovcom/ai-notes-hub?display_name=tag&sort=semver)
@@ -172,8 +172,8 @@ For more help, check [Next.js docs](https://nextjs.org/docs) or [Prisma docs](ht
 
 Built with ❤️ using Next.js, TypeScript, and Prisma
 
-> Deployed version: **v0.0.0**
-> Last deploy: **—**
+> Deployed version: ****
+> Last deploy: **2025-10-24 04:48 UTC**
 
 📦 [Changelog](https://github.com/igorpuchkovcom/ai-notes-hub/releases)
 
