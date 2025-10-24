@@ -2,10 +2,15 @@
 
 A modern web application for managing AI-generated notes, built with Next.js 15, TypeScript, Prisma, and Tailwind CSS.
 
+
 > Deployed version: ****
+> Last deploy: **2025-10-24 04:48 UTC**
+
+📦 [Changelog](https://github.com/igorpuchkovcom/ai-notes-hub/releases)
 
 ![Build](https://github.com/igorpuchkovcom/ai-notes-hub/actions/workflows/ci.yml/badge.svg)
 ![Version](https://img.shields.io/github/v/release/igorpuchkovcom/ai-notes-hub?display_name=tag&sort=semver)
+![Deployment](https://img.shields.io/website?url=https%3A%2F%2Fai-notes-hub.vercel.app)
 ![Last commit](https://img.shields.io/github/last-commit/igorpuchkovcom/ai-notes-hub)
 
 ## 🚀 Features
@@ -171,13 +176,3 @@ For more help, check [Next.js docs](https://nextjs.org/docs) or [Prisma docs](ht
 ---
 
 Built with ❤️ using Next.js, TypeScript, and Prisma
-
-> Deployed version: ****
-> Last deploy: **2025-10-24 04:48 UTC**
-
-📦 [Changelog](https://github.com/igorpuchkovcom/ai-notes-hub/releases)
-
-![Build](https://github.com/igorpuchkovcom/ai-notes-hub/actions/workflows/ci.yml/badge.svg)
-![Version](https://img.shields.io/github/v/release/igorpuchkovcom/ai-notes-hub?display_name=tag&sort=semver)
-![Deployment](https://img.shields.io/website?url=https%3A%2F%2Fai-notes-hub.vercel.app)
-![Last commit](https://img.shields.io/github/last-commit/igorpuchkovcom/ai-notes-hub)
