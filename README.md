@@ -13,6 +13,7 @@ A modern web application for managing AI-generated notes, built with Next.js 15,
 - **AI Integration**: Ready for Anthropic AI SDK integration
 - **Dev Container**: Complete VS Code development environment with extensions
 - **CI/CD Pipeline**: Automated testing, linting, and building with GitHub Actions
+- **Semantic Release**: Automated versioning, changelog generation, and GitHub releases
 - **Discord Notifications**: Real-time build status notifications via Discord webhooks
 - **Code Quality**: Prettier formatting and ESLint with TypeScript support
 - **Testing**: Vitest testing framework for reliable code
@@ -237,7 +238,9 @@ The application features a clean, modern interface:
 3. **Code Quality**: Use `pnpm lint` to check code quality
 4. **Testing**: Use `pnpm test` to run tests with Vitest
 5. **Code Formatting**: Prettier is configured to format on save in VS Code
-6. **CI/CD**: GitHub Actions automatically runs lint, test, and build on every push/PR with Discord notifications
+6. **Commit Messages**: Use conventional commit format (see Semantic Release section below)
+7. **CI/CD**: GitHub Actions automatically runs lint, test, and build on every push/PR with Discord notifications
+8. **Releases**: Semantic release automatically creates versions and releases when pushed to main
 
 ## 🔔 Discord Notifications
 
@@ -265,6 +268,90 @@ The CI/CD pipeline includes Discord webhook integration for real-time build noti
 3. **Test the Integration**:
    - Push a commit to trigger the CI pipeline
    - Check your Discord channel for the notification
+
+## 📦 Semantic Release & Versioning
+
+The project uses [semantic-release](https://github.com/semantic-release/semantic-release) for automated version management and package publishing.
+
+### How It Works
+
+- **Automatic Versioning**: Version numbers are automatically determined based on commit messages
+- **Changelog Generation**: CHANGELOG.md is automatically updated with release notes
+- **GitHub Releases**: Releases are automatically created on GitHub
+- **Sentry Integration**: Release notifications are sent to Sentry for error tracking
+
+### Conventional Commits
+
+All commit messages **must** follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+#### Commit Types
+
+- `feat:` - A new feature (triggers minor version bump, e.g., 1.0.0 → 1.1.0)
+- `fix:` - A bug fix (triggers patch version bump, e.g., 1.0.0 → 1.0.1)
+- `docs:` - Documentation changes only
+- `style:` - Code style changes (formatting, semicolons, etc.)
+- `refactor:` - Code refactoring without feature changes
+- `perf:` - Performance improvements
+- `test:` - Adding or updating tests
+- `chore:` - Maintenance tasks, dependency updates
+- `ci:` - CI/CD configuration changes
+- `build:` - Build system changes
+
+#### Breaking Changes
+
+To trigger a major version bump (e.g., 1.0.0 → 2.0.0), include `BREAKING CHANGE:` in the commit footer or use `!` after the type:
+
+```bash
+feat!: remove deprecated API endpoint
+
+BREAKING CHANGE: The /old-api endpoint has been removed. Use /new-api instead.
+```
+
+#### Examples
+
+```bash
+# Feature (minor version bump)
+feat(notes): add ability to archive notes
+
+# Bug fix (patch version bump)
+fix(api): resolve database connection timeout
+
+# Documentation (no version bump)
+docs: update installation instructions
+
+# Breaking change (major version bump)
+feat!: redesign authentication system
+
+BREAKING CHANGE: JWT tokens now require RS256 algorithm
+```
+
+### Release Process
+
+1. **Commit with Conventional Format**: Push commits to the main branch using conventional commit messages
+2. **Automatic Analysis**: Semantic release analyzes commits to determine the version bump
+3. **Version Update**: Updates version in package.json
+4. **Changelog Generation**: Creates/updates CHANGELOG.md with release notes
+5. **Git Tag**: Creates a git tag for the new version
+6. **GitHub Release**: Publishes a release on GitHub with release notes
+7. **Sentry Notification**: Notifies Sentry about the new release for error tracking
+
+### Configuration Files
+
+- `.releaserc.json` - Semantic release configuration
+- `.github/workflows/кelease.yml` - Release workflow that runs on main branch pushes
+
+### GitHub Secrets Required
+
+- `GITHUB_TOKEN` - Automatically provided by GitHub Actions
+- `SENTRY_AUTH_TOKEN` - Required for Sentry release notifications (optional)
 
 ## 📊 Error Monitoring with Sentry
 
@@ -322,9 +409,14 @@ The application can be deployed to any platform that supports Node.js:
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
+3. Commit your changes using [Conventional Commits](https://www.conventionalcommits.org/) format:
+   ```bash
+   git commit -m 'feat: add amazing feature'
+   ```
 4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
+
+**Note**: All commits must follow the Conventional Commits specification for semantic release to work properly. See the [Semantic Release & Versioning](#-semantic-release--versioning) section for details.
 
 ## 📝 License
 
