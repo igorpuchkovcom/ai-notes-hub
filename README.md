@@ -2,8 +2,9 @@
 
 A modern web application for managing AI-generated notes, built with Next.js 15, TypeScript, Prisma, and Tailwind CSS.
 
-> Deployed version: **v0.0.0**
-> Last deploy: **—**
+
+> Deployed version: ****
+> Last deploy: **2025-10-24 04:52 UTC**
 
 📦 [Changelog](https://github.com/igorpuchkovcom/ai-notes-hub/releases)
 
