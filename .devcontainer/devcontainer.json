@@ -62,7 +62,16 @@
         "testing.openTesting": "neverOpen",
         "prisma.showPrismaDataPlatformNotification": false,
         "npm.enableScriptExplorer": true,
-        "npm.scriptExplorerAction": "run"
+        "npm.scriptExplorerAction": "run",
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/**": true,
+          "**/.next/**": true
+        },
+        "files.exclude": {
+          "**/.next": true
+        }
       }
     }
   },
@@ -71,6 +80,8 @@
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "remoteEnv": {
-    "DATABASE_URL": "postgresql://testuser:testpass@postgres:5432/testdb?schema=public"
+    "DATABASE_URL": "postgresql://testuser:testpass@postgres:5432/testdb?schema=public",
+    "CHOKIDAR_USEPOLLING": "false",
+    "CHOKIDAR_INTERVAL": "1000"
   }
 }
