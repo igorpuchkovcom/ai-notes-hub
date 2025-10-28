@@ -1,0 +1,28 @@
+name: Update README Snapshot
+on:
+  push:
+    branches: [main]
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get current version
+        id: version
+        run: echo "version=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+      - name: Get last deploy time
+        id: deploy
+        run: echo "timestamp=$(date -u +"%Y-%m-%d %H:%M UTC")" >> $GITHUB_OUTPUT
+      - name: Update README
+        run: |
+          sed -i "s/^> Deployed version:.*/> Deployed version: **${{ steps.version.outputs.version }}**/" README.md
+          sed -i "s/^> Last deploy:.*/> Last deploy: **${{ steps.deploy.outputs.timestamp }}**/" README.md
+      - name: Commit & Push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add README.md
+          git commit -m "docs: update README snapshot [skip ci]" || echo "No changes"
+          git push

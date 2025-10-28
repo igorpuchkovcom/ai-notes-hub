@@ -2,7 +2,10 @@ name: Release
 on:
   push:
     branches: [main]
-
+  paths-ignore:
+    - ".github/workflows/**"
+    - ".gitlab-ci.yml"
+    - "ci/**"
 jobs:
   release:
     runs-on: ubuntu-latest

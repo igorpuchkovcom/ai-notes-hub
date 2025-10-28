@@ -1,0 +1,27 @@
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/javascript-node:1-22-bullseye
+    command: sleep infinity
+    volumes:
+      - ..:/workspaces/ai-notes-hub
+    environment:
+      DATABASE_URL: postgresql://testuser:testpass@postgres:5432/testdb?schema=public
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+      POSTGRES_DB: testdb
+    volumes:
+      - devcontainer-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  devcontainer-postgres-data:
