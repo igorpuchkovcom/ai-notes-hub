@@ -3,7 +3,7 @@ services:
     image: mcr.microsoft.com/devcontainers/javascript-node:1-22-bullseye
     command: sleep infinity
     volumes:
-      - ..:/workspaces/ai-notes-hub
+      - ..:/workspaces/ai-notes-hub:delegated
     environment:
       DATABASE_URL: postgresql://testuser:testpass@postgres:5432/testdb?schema=public
     depends_on:

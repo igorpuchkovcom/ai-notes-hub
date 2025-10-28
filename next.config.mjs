@@ -2,7 +2,17 @@
 
 import { withSentryConfig } from "@sentry/nextjs";
 
-const nextConfig = {};
+const nextConfig = {
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.watchOptions = {
+        ignored: ["**/node_modules/**", "**/.git/**", "**/.next/**"],
+        poll: 1000,
+      };
+    }
+    return config;
+  },
+};
 
 export default withSentryConfig(nextConfig, {
   // For all available options, see:
