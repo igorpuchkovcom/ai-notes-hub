@@ -1,15 +1,20 @@
 {
   "name": "AI Notes Hub Development",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  "forwardPorts": [3000],
+  "dockerComposeFile": "docker-compose.yml",
+  "workspaceFolder": "/workspaces/ai-notes-hub",
+  "service": "app",
+  "forwardPorts": [3000, 5432],
   "portsAttributes": {
     "3000": {
       "label": "Next.js App",
       "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
+  "postCreateCommand": "pnpm install",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -64,5 +69,8 @@
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "remoteEnv": {
+    "DATABASE_URL": "postgresql://testuser:testpass@postgres:5432/testdb?schema=public"
   }
 }
